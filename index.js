@@ -1,20 +1,29 @@
-// Input: solution([2,3,6,7], 7)
-// Output:
-//     [
-//         [7],
-//         [2,2,3]
-//     ]
-const solution = (c, t) => {
-    const result = [];
-        for (let i = 1; i < c.length; i++){
-            for (let j = 1; j < c.length;j++){
-                if (c[i] + c[j] === t){
-                    result.push(i);
-                    result.push(j);
-                }
-            }
+let solution = function (c, t) {
+    let result = []
+    if (c.length === 0) {
+        return result;
+    }
+    let current = []
+    findNumbers(c, t, 0, current, result);
+    return result;
+};
+
+const findNumbers = function (c, t, i, current, result) {
+    if (t === 0) {
+        const temp = current.slice();
+        result.push(temp);
+        return;
+    }
+
+    for (let j = i; j < c.length; j++) {
+        if (t < c[j]) {
+            return;
         }
-    return result
+        current.push(c[j]);
+        findNumbers(c, t - c[j], j, current, result);
+        current.pop();
+    }
 }
 
-console.log(solution([2,3,6,7], 7))
+console.log(solution([2, 3, 6, 7], 7));
+console.log(solution([2, 3, 5], 8))
